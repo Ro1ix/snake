@@ -10,35 +10,86 @@ namespace snake
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("ЗМЕЙКА");
-            Console.WriteLine("\nВведите размер квадрата");
+            Console.Title = "ЗМЕЙКА";
+            Console.WriteLine("Введите размер квадрата");
             int n = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine();
             int[,] array = new int[n, n];
-            int x = 0;
-            int y = 0;
-            array[x, y] = 1;
-            Console.WriteLine(array[x, y]);
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    array[i, j] = 0;
+                }
+            }
+            int x = -1;
+            int y = 1;
+            int direction = 1;
             for (int i = 1; i <= Math.Pow(n, 2); i++)
             {
-                switch (x)
+                switch (direction)
                 {
                     case 0:
-                        if (y < n)
-                            y = y + 1;
+                        if (y < n - 1)
+                        {
+                            if (x > 0)
+                            {
+                                x = x - 1;
+                                y = y + 1;
+                                array[x, y] = i;
+                            }
+                            else
+                            {
+                                y = y + 1;
+                                direction = 1;
+                                array[x, y] = i;
+                            }
+                        }
                         else
+                        {
                             x = x + 1;
-                        array[x, y] = i + 1;
+                            direction = 1;
+                            array[x, y] = i;
+                        }
+                        break;
+                    case 1:
+                        if (x < n - 1)
+                        {
+                            if (y > 0)
+                            {
+                                y = y - 1;
+                                x = x + 1;
+                                array[x, y] = i;
+                            }
+                            else
+                            {
+                                x = x + 1;
+                                direction = 0;
+                                array[x, y] = i;
+                            }
+                        }
+                        else
+                        {
+                            y = y + 1;
+                            direction = 0;
+                            array[x, y] = i;
+                        }
                         break;
                 }
             }
-
-            for (int i = 1; i < n; i++)
+            Console.WriteLine();
+            for (int i = 0; i < n; i++)
             {
-                for (int j = 1; j < n; j++)
+                for (int j = 0; j < n; j++)
                 {
-                    Console.Write($"{array[x, y]}   ");
+                    if (array[i, j] < 10)
+                        Console.Write($"{array[i, j]}    ");
+                    else if (array[i, j] < 100)
+                        Console.Write($"{array[i, j]}   ");
+                    else
+                        Console.Write($"{array[i, j]}  ");
                 }
-                Console.WriteLine();
+                Console.WriteLine("\n");
             }
         }
     }
